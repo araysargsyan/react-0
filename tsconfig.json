@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "esnext",
+    "target": "es5",
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    //"noImplicitThis": false
+    "baseUrl": ".",
+    "paths": {
+      "*": ["./src/*"],
+      "@config/*": ["./config/*"]
+    }
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
+  "include": [
+    "./src",
+    "./config/storybook",
+    "./config/jest"
+  ]
+}

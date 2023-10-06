@@ -1,0 +1,41 @@
+{
+  "test": {
+    "some": "SOME DATA"
+  },
+  "posts": [
+    {
+      "id": "1",
+      "title": "json-server",
+      "userId": "1"
+    },
+    {
+      "id": "2",
+      "title": "json-server",
+      "userId": "2"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "body": "some comment",
+      "postId": "1"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "123"
+    }
+  ],
+  "profile": {
+    "firstname": "Aro",
+    "lastname": "Sargsyan",
+    "age": "27",
+    "currency": "EUR",
+    "country": "Russia",
+    "city": "Yerevan",
+    "username": "uuu",
+    "avatar": "https://static.vecteezy.com/packs/media/vector/hero-800px-cc1b446b.jpg"
+  }
+}

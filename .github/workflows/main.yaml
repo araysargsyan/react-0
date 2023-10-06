@@ -1,0 +1,93 @@
+name: main
+
+on:
+  pull_request:
+    branches: ["main"]
+  push:
+    branches: ["master"]
+
+jobs:
+  install-deps:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 18.x ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Staring Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+#  chromatic-deployment:
+#    needs: ['install-deps']
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v3
+#        with:
+#          fetch-depth: 0
+#
+#       - name: Cache dependencies
+#        uses: actions/cache@v3
+#        with:
+#          path: |
+#            **/node_modules
+#          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+#
+#      - name: Publish to Chromatic
+#        uses: chromaui/action@v1
+#        with:
+#          projectToken: chpt_68142ee61976993
+#          buildScriptName: build-storybook
+#          workingDir: /config/storybook
+
+  lints:
+    needs: [ 'install-deps' ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: linting typescript
+        run: npm run lint:ts
+        if: always()
+
+      - name: linting css
+        run: npm run lint:scss
+
+  tests:
+    needs: [ 'install-deps' ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: unit testing
+        run: npm run test:unit
